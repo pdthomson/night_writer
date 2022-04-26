@@ -1,10 +1,11 @@
+require 'simplecov'
+SimpleCov.start
 require './lib/dictionary'
 
 RSpec.describe Dictionary do
 
   before :each do
-    @dictionary = Dictionary.new
-    ARGV = ['message.txt', 'braille.txt']
+    @dictionary = Dictionary.new('message.txt', 'braille.txt')
   end
 
   it "exists and has attributes" do
@@ -16,7 +17,8 @@ RSpec.describe Dictionary do
   end
 
   it "can return words in braille" do
-    @dictionary2 = Dictionary.new('message.txt')
-    expect(@dictionary2.braille_writer.length).to eq(90)
+    expect(@dictionary.braille_writer.length).to eq(4)
+# require 'pry' ; binding.pry
   end
+
 end
