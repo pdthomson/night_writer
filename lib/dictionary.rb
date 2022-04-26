@@ -6,7 +6,7 @@ class Dictionary
               :input,
               :output
 
-  def initialize
+  def initialize(input, output)
     @braille_hash = {
       'a' => ['0.','..','..'],
       'b' => ['0.','0.','..'],
@@ -37,8 +37,8 @@ class Dictionary
       ' ' => ['..','..','..']
     }
     @english_hash = @braille_hash.invert
-    @input = File.open(ARGV[0], 'r').read
-    @output = ARGV[1]#File.open(ARGV[1], 'w')
+    @input = File.open(input, 'r').read
+    @output = output#File.open(ARGV[1], 'w')
     @top = ''
     @mid = ''
     @bot = ''
@@ -56,17 +56,18 @@ class Dictionary
       @bot << @braille_hash[char][2]
     end#.map {|array| array.scan(/.{1,80}/).join('\n')}
     braille_splitter
-    cli_message
+    # cli_message
   end
 
   def braille_splitter
-    thing = [@top, @mid, @bot].map { |row| row.scan(/.{1,80}/)}
-    length = Array(0..thing[0].length)
-    length.each do |num|
+    array = [@top, @mid, @bot].map { |row| row.scan(/.{1,80}/)}#saying chop each into 80 char
+    length = Array(0..array[0].length)#make the indexs an array
+    length.each do |num|# with the above array iterate thru and shovel into each index
+
       File.open(@output, 'a') do |index|
-        index.puts thing[0][num]
-        index.puts thing[1][num]
-        index.puts thing[2][num]
+        index.puts array[0][num]#put top 80 in and go get the rest
+        index.puts array[1][num]#put mid 80 in and go get the rest
+        index.puts array[2][num]#put bot 80 in and go get the rest
       end
     end
   end
